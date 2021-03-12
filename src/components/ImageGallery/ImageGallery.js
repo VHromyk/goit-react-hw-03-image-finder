@@ -6,6 +6,7 @@ import Button from '../Button';
 import './ImageGallery.scss';
 import Container from '../Container';
 import Modal from '../Modal';
+import Spiner from '../Spiner';
 
 class ImageGallery extends Component {
   state = {
@@ -18,6 +19,7 @@ class ImageGallery extends Component {
     showModal: false,
     largeImageURL: '',
     largeImageALT: '',
+    scroll: false,
   };
 
   componentDidUpdate(prevProps, prevState) {
@@ -55,6 +57,7 @@ class ImageGallery extends Component {
         this.setState(prevState => ({
           hits: [...prevState.hits, ...hits],
           currentPage: prevState.currentPage + 1,
+          scroll: true,
         }));
       })
       .catch(error => this.setState({ error }))
@@ -77,6 +80,7 @@ class ImageGallery extends Component {
       showModal,
       largeImageURL,
       largeImageALT,
+      scroll,
     } = this.state;
     const shouldRenderLoadMoreBtn = hits.length > 0 && !isLoading;
     return (
@@ -94,7 +98,12 @@ class ImageGallery extends Component {
               />
             ))}
           </ul>
-          {isLoading && <h1>Загружаем...</h1>}
+          {scroll &&
+            window.scrollTo({
+              top: document.documentElement.scrollHeight,
+              behavior: 'smooth',
+            })}
+          {isLoading && <Spiner />}
           {shouldRenderLoadMoreBtn && <Button onClick={this.fetchImages} />}
         </Container>
         {showModal && (

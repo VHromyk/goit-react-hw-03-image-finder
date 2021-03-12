@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import styles from './Modal.module.scss';
+import './Modal.scss';
 
 class Modal extends Component {
   componentDidMount() {
@@ -22,8 +22,8 @@ class Modal extends Component {
   };
   render() {
     return (
-      <div className={styles.Overlay} onClick={this.handleBackdrop}>
-        <div className={styles.Modal}>{this.props.children}</div>
+      <div className="Overlay" onClick={this.handleBackdrop}>
+        <div className="Modal">{this.props.children}</div>
       </div>
     );
   }
